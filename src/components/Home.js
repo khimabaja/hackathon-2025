@@ -1,32 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Nav, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Home.css';
 
-// Mock data for potential matches
-const potentialMatches = [
-  { id: 1, name: "Sarah", age: 26, distance: 5, Traits: ["Height: 5-7", "Weight: 120", "Reach: 65"], bio: "Looking for someone to explore the world with!" },
-  { id: 2, name: "Emily", age: 24, distance: 3, Traits: ["Height: 5-6", "Weight: 125", "Reach: 62"], bio: "Foodie looking for a partner in culinary adventures!" },
-  { id: 3, name: "Jessica", age: 28, distance: 7, Traits: ["Height: 5-11", "Weight: 155", "Reach: 73"], bio: "Artist seeking a muse and a companion." },
-  { id: 4, name: "Olivia", age: 25, distance: 2, Traits: ["Height: 5-1", "Weight: 110", "Reach: 49"], bio: "Health enthusiast looking for an active partner." },
-];
+const S3_URL = "https://userprofiles-fightapp.s3.us-east-2.amazonaws.com/fight_club_profiles.json"; // Your JSON file URL
 
 function Home() {
   const navigate = useNavigate();
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
   const [showMatch, setShowMatch] = useState(false);
+  const [potentialMatches, setPotentialMatches] = useState([]); // state to store matches
+
+  // Fetching data from the S3 bucket
+  useEffect(() => {
+    axios.get(S3_URL)
+      .then(response => {
+        setPotentialMatches(response.data); // Set the data as an array of profiles
+      })
+      .catch(error => {
+        console.error("Error fetching data from S3:", error);
+      });
+  }, []);
 
   const currentMatch = potentialMatches[currentMatchIndex];
 
   const handleLike = () => {
-    // Get existing likes from localStorage
-  const existingLikes = JSON.parse(localStorage.getItem('likedProfiles')) || [];
-  
-  // Add current match to likes
-  const updatedLikes = [...existingLikes, currentMatch];
-  
-  // Save to localStorage
-  localStorage.setItem('likedProfiles', JSON.stringify(updatedLikes));
+    const existingLikes = JSON.parse(localStorage.getItem('likedProfiles')) || [];
+    const updatedLikes = [...existingLikes, currentMatch];
+    localStorage.setItem('likedProfiles', JSON.stringify(updatedLikes));
 
     setShowMatch(true);
     setTimeout(() => {
@@ -43,6 +45,16 @@ function Home() {
     setCurrentMatchIndex((prevIndex) => (prevIndex + 1) % potentialMatches.length);
   };
 
+  const getProfilePicture = (profile) => {
+    // Check if physical_attributes and profile_picture exist before accessing
+    return profile?.physical_attributes?.profile_picture || `https://via.placeholder.com/200x300?text=${profile?.name || "Unknown"}`;
+  };
+
+  const getPhysicalAttribute = (attribute, profile) => {
+    // Check if profile and physical_attributes exist before trying to access the attribute
+    return profile?.physical_attributes?.[attribute] || "N/A";
+  };
+
   return (
     <Container fluid>
       <Row className="nav-section mb-3">
@@ -55,7 +67,7 @@ function Home() {
               <Nav.Link onClick={() => navigate('/likes')}>Likes</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-             <Nav.Link onClick={() => navigate('/messages')}>Messages</Nav.Link>
+              <Nav.Link onClick={() => navigate('/messages')}>Messages</Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link onClick={() => navigate('/matches')}>Matches</Nav.Link>
@@ -71,39 +83,35 @@ function Home() {
 
       {showMatch && (
         <Alert variant="success" className="match-alert" onClose={() => setShowMatch(false)} dismissible>
-          It's a match! Get ready to fight {currentMatch.name}.
+          It's a match! Get ready to fight {currentMatch?.name}.
         </Alert>
       )}
 
       <Row>
-        
-
         <Col md={8}>
           <h2 className="match-title">Today's Match</h2>
           <Card className="match-card">
             <Row>
               <Col md={4}>
-                <Card.Img src={`https://via.placeholder.com/200x300?text=${currentMatch.name}`} />
+                <Card.Img src={getProfilePicture(currentMatch)} />
               </Col>
               <Col md={8}>
                 <Card.Body className="match-details">
-                  <Card.Title>{currentMatch.name}, {currentMatch.age}</Card.Title>
+                  <Card.Title>{currentMatch?.name}</Card.Title>
                   <Card.Text>
-    {currentMatch.distance} miles away
-    <div className="trait-list">
-    {currentMatch.Traits.map((trait, index) => (
-      <React.Fragment key={index}>
-        {trait}
-        <br />
-      </React.Fragment>
-    ))}
-    </div>
-    "{currentMatch.bio}"
-  </Card.Text>
-                <div className="button-group">
-                  <Button variant="success" className="me-2" onClick={handleLike}>Fight</Button>
-                  <Button variant="danger" onClick={handlePass}>Flight</Button>
-                </div>  
+                    {currentMatch?.hometown && <div>Hometown: {currentMatch?.hometown}</div>}
+                    {currentMatch?.fight_camp && <div>Fight Camp: {currentMatch?.fight_camp}</div>}
+                    <div>Height: {getPhysicalAttribute('height', currentMatch)}</div>
+                    <div>Weight: {getPhysicalAttribute('weight', currentMatch)}</div>
+                    <div>Reach: {getPhysicalAttribute('reach', currentMatch)}</div>
+                    <div>Leg Reach: {getPhysicalAttribute('leg_reach', currentMatch)}</div>
+                    <div>Grip Strength: {getPhysicalAttribute('grip_strength', currentMatch)}</div>
+                    <div>{currentMatch?.personality_background?.description}</div>
+                  </Card.Text>
+                  <div className="button-group">
+                    <Button variant="success" className="me-2" onClick={handleLike}>Fight</Button>
+                    <Button variant="danger" onClick={handlePass}>Flight</Button>
+                  </div>
                 </Card.Body>
               </Col>
             </Row>
@@ -115,3 +123,5 @@ function Home() {
 }
 
 export default Home;
+
+
