@@ -5,7 +5,7 @@ import { Row, Col, Card } from 'react-bootstrap';
 function LikedProfiles({ likedProfiles }) {
   return (
     <div>
-      <h3>Liked Profiles</h3>
+      <h3>Upcoming Fights</h3>
       <Row>
         {likedProfiles.map((profile) => (
           <Col key={profile.id} xs={6} className="mb-3">
