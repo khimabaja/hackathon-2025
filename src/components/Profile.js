@@ -22,11 +22,12 @@ function Profile() {
         <Card.Body>
           <Row>
             <Col md={4}>
-              <Card.Img
-                variant="top"
-                src="https://via.placeholder.com/300x300.png?text=Profile+Image"
-                alt="Profile"
-              />
+            <Card.Img
+            variant="top"
+            src="https://images.news18.com/ibnlive/uploads/2022/07/untitled-1-89-16591630014x3.jpg"
+            alt="Profile Picture"
+            />
+
               <Button variant="secondary" className="mt-3" onClick={uploadImage}>
                 Upload Image
               </Button>
