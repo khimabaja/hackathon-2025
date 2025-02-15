@@ -1,5 +1,6 @@
 // src/App.js
 import React from 'react';
+import './App.css';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home';
@@ -7,6 +8,7 @@ import Profile from './components/Profile';
 import Messages from './components/Messages';
 import Matches from './components/Matches'; // <-- Import the new Matches component
 import TermsOfService from "./components/TermsOfService";
+import LikedProfiles from './components/LikedProfiles'
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/tos" element={<TermsOfService />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/likes" element={<LikedProfiles />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/matches" element={<Matches />} />  {/* <-- Matches route */}
