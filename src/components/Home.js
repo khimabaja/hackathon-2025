@@ -1,4 +1,3 @@
-// src/components/Home.js
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Nav, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -43,13 +42,13 @@ function Home() {
         <Col>
           <Nav className="justify-content-between">
             <Nav.Item>
-              <Nav.Link href="#profile">My Profile</Nav.Link>
+              <Nav.Link onClick={() => navigate('/profile')}>My Profile</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="#matches">Matches</Nav.Link>
+             <Nav.Link onClick={() => navigate('/messages')}>Messages</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link href="#messages">Messages</Nav.Link>
+              <Nav.Link onClick={() => navigate('/matches')}>Matches</Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Button variant="outline-danger" size="sm" onClick={() => navigate('/login')}>
