@@ -5,10 +5,10 @@ import LikedProfiles from './LikedProfiles';
 
 // Mock data for potential matches
 const potentialMatches = [
-  { id: 1, name: "Sarah", age: 26, distance: 5, interests: ["Hiking", "Photography", "Travel"], bio: "Looking for someone to explore the world with!" },
-  { id: 2, name: "Emily", age: 24, distance: 3, interests: ["Reading", "Cooking", "Yoga"], bio: "Foodie looking for a partner in culinary adventures!" },
-  { id: 3, name: "Jessica", age: 28, distance: 7, interests: ["Music", "Dancing", "Art"], bio: "Artist seeking a muse and a companion." },
-  { id: 4, name: "Olivia", age: 25, distance: 2, interests: ["Fitness", "Nutrition", "Outdoors"], bio: "Health enthusiast looking for an active partner." },
+  { id: 1, name: "Sarah", age: 26, distance: 5, Traits: ["Height: 5-7", "Weight: 120", "Reach: 65"], bio: "Looking for someone to explore the world with!" },
+  { id: 2, name: "Emily", age: 24, distance: 3, Traits: ["Height: 5-6", "Weight: 125", "Reach: 62"], bio: "Foodie looking for a partner in culinary adventures!" },
+  { id: 3, name: "Jessica", age: 28, distance: 7, Traits: ["Height: 5-11", "Weight: 155", "Reach: 73"], bio: "Artist seeking a muse and a companion." },
+  { id: 4, name: "Olivia", age: 25, distance: 2, Traits: ["Height: 5-1", "Weight: 110", "Reach: 49"], bio: "Health enthusiast looking for an active partner." },
 ];
 
 function Home() {
@@ -61,7 +61,7 @@ function Home() {
 
       {showMatch && (
         <Alert variant="success" onClose={() => setShowMatch(false)} dismissible>
-          It's a match! You liked {currentMatch.name}.
+          It's a match! Get ready to fight {currentMatch.name}.
         </Alert>
       )}
 
@@ -93,14 +93,20 @@ function Home() {
                 <Card.Body>
                   <Card.Title>{currentMatch.name}, {currentMatch.age}</Card.Title>
                   <Card.Text>
-                    {currentMatch.distance} miles away
-                    <br />
-                    Interests: {currentMatch.interests.join(", ")}
-                    <br />
-                    "{currentMatch.bio}"
-                  </Card.Text>
-                  <Button variant="success" className="me-2" onClick={handleLike}>Like</Button>
-                  <Button variant="danger" onClick={handlePass}>Pass</Button>
+    {currentMatch.distance} miles away
+    <br />
+    <br />
+    {currentMatch.Traits.map((trait, index) => (
+      <React.Fragment key={index}>
+        {trait}
+        <br />
+      </React.Fragment>
+    ))}
+    <br />
+    "{currentMatch.bio}"
+  </Card.Text>
+                  <Button variant="success" className="me-2" onClick={handleLike}>Fight</Button>
+                  <Button variant="danger" onClick={handlePass}>Flight</Button>
                 </Card.Body>
               </Col>
             </Row>
