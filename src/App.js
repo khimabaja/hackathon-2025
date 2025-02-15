@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Profile from './components/Profile';
 import Messages from './components/Messages';
 import Matches from './components/Matches'; // <-- Import the new Matches component
+import TermsOfService from "./components/TermsOfService";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/tos" element={<TermsOfService />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/messages" element={<Messages />} />
