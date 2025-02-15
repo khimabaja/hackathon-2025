@@ -11,7 +11,7 @@ function Login() {
     e.preventDefault();
     // Here you would typically validate the credentials
     // For this example, we'll just navigate to the home page
-    navigate('/home');
+    navigate('/tos');
   };
 
   return (

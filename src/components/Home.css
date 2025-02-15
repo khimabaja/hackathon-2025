@@ -1,0 +1,149 @@
+/* Main layout and container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Navigation styles */
+  .nav-links {
+    padding: 20px 0;
+    border-bottom: 1px solid #0d0e0e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-links a {
+    color: #3c3e43;
+    font-size: 18px;
+    text-decoration: none;
+    padding: 8px 16px;
+  }
+  
+  /* Profile card styles */
+  .profile-card {
+    max-width: 400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+  }
+  
+  /* Match section styles */
+  .match-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin: 24px 0;
+  }
+  
+  .match-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .match-card img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+  }
+  
+  .match-details {
+    padding: 24px;
+  }
+  
+  /* Trait list styling */
+  .trait-list {
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+  .trait-list p {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  
+  /* Button group styling */
+  .button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .button-group button {
+    padding: 10px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  /* Alert styling */
+  .match-alert {
+    text-align: center;
+    margin: 20px 0;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #dcfce7;
+    color: #166534;
+  }
+  
+  /* Liked Profiles section */
+  .liked-profiles-section {
+    margin-top: 24px;
+  }
+  
+  .liked-profiles-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  .liked-profiles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .liked-profile-card {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .liked-profile-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .liked-profiles-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .match-card img {
+      height: 300px;
+    }
+    
+    .button-group {
+      flex-direction: column;
+    }
+  }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Button, Nav, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import LikedProfiles from './LikedProfiles';
+import './Home.css';
 
 // Mock data for potential matches
 const potentialMatches = [
@@ -14,13 +14,20 @@ const potentialMatches = [
 function Home() {
   const navigate = useNavigate();
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
-  const [likedProfiles, setLikedProfiles] = useState([]);
   const [showMatch, setShowMatch] = useState(false);
 
   const currentMatch = potentialMatches[currentMatchIndex];
 
   const handleLike = () => {
-    setLikedProfiles([...likedProfiles, currentMatch]);
+    // Get existing likes from localStorage
+  const existingLikes = JSON.parse(localStorage.getItem('likedProfiles')) || [];
+  
+  // Add current match to likes
+  const updatedLikes = [...existingLikes, currentMatch];
+  
+  // Save to localStorage
+  localStorage.setItem('likedProfiles', JSON.stringify(updatedLikes));
+
     setShowMatch(true);
     setTimeout(() => {
       setShowMatch(false);
@@ -38,11 +45,14 @@ function Home() {
 
   return (
     <Container fluid>
-      <Row className="mb-3">
+      <Row className="nav-section mb-3">
         <Col>
           <Nav className="justify-content-between">
             <Nav.Item>
               <Nav.Link onClick={() => navigate('/profile')}>My Profile</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => navigate('/likes')}>Likes</Nav.Link>
             </Nav.Item>
             <Nav.Item>
              <Nav.Link onClick={() => navigate('/messages')}>Messages</Nav.Link>
@@ -60,65 +70,46 @@ function Home() {
       </Row>
 
       {showMatch && (
-        <Alert variant="success" onClose={() => setShowMatch(false)} dismissible>
+        <Alert variant="success" className="match-alert" onClose={() => setShowMatch(false)} dismissible>
           It's a match! Get ready to fight {currentMatch.name}.
         </Alert>
       )}
 
       <Row>
-        <Col md={4}>
-          <Card className="mb-4">
-            <Card.Img variant="top" src="https://via.placeholder.com/300x200" />
-            <Card.Body>
-              <Card.Title>Your Profile</Card.Title>
-              <Card.Text>
-                John Doe, 28
-                <br />
-                Moncks Corner, SC
-              </Card.Text>
-              <Button variant="primary">Edit Profile</Button>
-            </Card.Body>
-          </Card>
-          <LikedProfiles likedProfiles={likedProfiles} />
-        </Col>
+        
 
         <Col md={8}>
-          <h2>Today's Match</h2>
-          <Card>
+          <h2 className="match-title">Today's Match</h2>
+          <Card className="match-card">
             <Row>
               <Col md={4}>
                 <Card.Img src={`https://via.placeholder.com/200x300?text=${currentMatch.name}`} />
               </Col>
               <Col md={8}>
-                <Card.Body>
+                <Card.Body className="match-details">
                   <Card.Title>{currentMatch.name}, {currentMatch.age}</Card.Title>
                   <Card.Text>
     {currentMatch.distance} miles away
-    <br />
-    <br />
+    <div className="trait-list">
     {currentMatch.Traits.map((trait, index) => (
       <React.Fragment key={index}>
         {trait}
         <br />
       </React.Fragment>
     ))}
-    <br />
+    </div>
     "{currentMatch.bio}"
   </Card.Text>
+                <div className="button-group">
                   <Button variant="success" className="me-2" onClick={handleLike}>Fight</Button>
                   <Button variant="danger" onClick={handlePass}>Flight</Button>
+                </div>  
                 </Card.Body>
               </Col>
             </Row>
           </Card>
         </Col>
       </Row>
-
-      {/* <Row className="mt-3">
-        <Col>
-          <LikedProfiles likedProfiles={likedProfiles} />
-        </Col>
-      </Row> */}
     </Container>
   );
 }
