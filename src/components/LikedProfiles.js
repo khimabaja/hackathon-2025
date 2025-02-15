@@ -8,8 +8,22 @@ function LikedProfiles() {
 
   // Load liked profiles when component mounts
   useEffect(() => {
-    const savedProfiles = JSON.parse(localStorage.getItem('likedProfiles')) || [];
-    setLikedProfiles(savedProfiles);
+    let savedProfiles = JSON.parse(localStorage.getItem('likedProfiles')) || [];
+
+    // Log the saved profiles to inspect the data
+    console.log('Saved profiles:', savedProfiles);
+
+    // Remove invalid or empty profiles
+    savedProfiles = savedProfiles.filter(profile => profile && profile.name);
+
+    // Remove duplicates based on the profile name (or another unique identifier)
+    const uniqueProfiles = savedProfiles.filter((value, index, self) =>
+      index === self.findIndex((t) => (
+        t.name === value.name
+      ))
+    );
+    
+    setLikedProfiles(uniqueProfiles);
   }, []);
 
   return (
@@ -32,12 +46,12 @@ function LikedProfiles() {
                 <Card>
                   <Card.Img 
                     variant="top" 
-                    src={`https://via.placeholder.com/150x150?text=${profile.name}`} 
+                    src={profile.profile_picture || `https://via.placeholder.com/150x150?text=${profile.name}`} 
                   />
                   <Card.Body>
                     <Card.Title>{profile.name}, {profile.age}</Card.Title>
                     <Card.Text>
-                      {profile.Traits.map((trait, i) => (
+                      {profile.Traits && profile.Traits.map((trait, i) => (
                         <div key={i}>{trait}</div>
                       ))}
                       <p className="mt-2"><em>"{profile.bio}"</em></p>
