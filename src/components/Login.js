@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { SignUp } from './SignUp';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -43,6 +44,15 @@ function Login() {
               Login
             </Button>
           </Form>
+
+          <Row className="mt-3 text-center">
+            <Col>
+              <p>
+                Don't have an account?{' '}
+                <Link to="/signup">Sign Up</Link> {/* Link to the Sign Up page */}
+              </p>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>
