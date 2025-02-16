@@ -8,7 +8,8 @@ import Profile from './components/Profile';
 import Messages from './components/Messages';
 import Matches from './components/Matches'; // <-- Import the new Matches component
 import TermsOfService from "./components/TermsOfService";
-import LikedProfiles from './components/LikedProfiles'
+import LikedProfiles from './components/LikedProfiles';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
@@ -21,12 +22,13 @@ function App() {
           <Route path="/likes" element={<LikedProfiles />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/messages" element={<Messages />} />
-          <Route path="/matches" element={<Matches />} />  {/* <-- Matches route */}
+          <Route path="/matches" element={<Matches />} /> 
+          <Route path="/signup" element={<SignUp />} /> 
           <Route path="/" element={<Navigate replace to="/login" />} />
         </Routes>
       </div>
     </Router>
-  );
+  );  
 }
 
 export default App;
