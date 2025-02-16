@@ -26,16 +26,38 @@ function Home() {
   const currentMatch = potentialMatches[currentMatchIndex];
 
   const handleLike = () => {
+    if (!currentMatch) return;
+  
+    // Get existing likes
     const existingLikes = JSON.parse(localStorage.getItem('likedProfiles')) || [];
-    const updatedLikes = [...existingLikes, currentMatch];
+  
+    // Flatten or copy relevant fields into a new object
+    const likedProfile = {
+      ...currentMatch,
+      profile_picture: getProfilePicture(currentMatch), // Flatten the image URL
+      // If the original JSON doesn't have 'bio' or 'age' at the top level,
+      // you can flatten those too. For example:
+      bio: currentMatch?.personality_background?.description || "",
+      age: currentMatch?.age || "N/A"
+    };
+  
+    // Debug: Check what you're actually saving
+    console.log("Saving liked profile:", likedProfile);
+  
+    // Save the updated list
+    const updatedLikes = [...existingLikes, likedProfile];
     localStorage.setItem('likedProfiles', JSON.stringify(updatedLikes));
-
+  
+    // Show match and move on
     setShowMatch(true);
     setTimeout(() => {
       setShowMatch(false);
       nextMatch();
     }, 1500);
   };
+  
+  
+  
 
   const handlePass = () => {
     nextMatch();

@@ -44,19 +44,26 @@ function LikedProfiles() {
             {likedProfiles.map((profile, index) => (
               <Col key={index}>
                 <Card>
-                  <Card.Img 
-                    variant="top" 
-                    src={profile.profile_picture || `https://via.placeholder.com/150x150?text=${profile.name}`} 
-                  />
-                  <Card.Body>
-                    <Card.Title>{profile.name}, {profile.age}</Card.Title>
-                    <Card.Text>
-                      {profile.Traits && profile.Traits.map((trait, i) => (
-                        <div key={i}>{trait}</div>
-                      ))}
-                      <p className="mt-2"><em>"{profile.bio}"</em></p>
-                    </Card.Text>
-                  </Card.Body>
+                <Card.Img 
+                  variant="top" 
+                  src={profile.profile_picture || `https://via.placeholder.com/150x150?text=${profile.name}`}
+                  style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                />
+
+              <Card.Body>
+                <Card.Title>{profile.name}, {profile.age}</Card.Title>
+                <Card.Text>
+                  {profile.hometown && <div>Hometown: {profile.hometown}</div>}
+                  {profile.fight_camp && <div>Fight Camp: {profile.fight_camp}</div>}
+                  <div>Height: {profile.physical_attributes?.height || "N/A"}</div>
+                  <div>Weight: {profile.physical_attributes?.weight || "N/A"}</div>
+                  <div>Reach: {profile.physical_attributes?.reach || "N/A"}</div>
+                  <div>Leg Reach: {profile.physical_attributes?.leg_reach || "N/A"}</div>
+                  <div>Grip Strength: {profile.physical_attributes?.grip_strength || "N/A"}</div>
+                  {profile.bio && <p className="mt-2"><em>"{profile.bio}"</em></p>}
+                </Card.Text>
+              </Card.Body>
+
                 </Card>
               </Col>
             ))}
